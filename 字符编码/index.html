@@ -1,0 +1,66 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://barryoo.github.io/favicon.ico><title>字符编码 | Barry Blog</title>
+<meta name=title content="字符编码"><meta name=description content="字符编码 简介 unicode包含了世界上所有的字符。 gb2123只有中文字符，GBK是它的升级版。 UTF8 UTF-16 UTF-24是Unicode的实现方式（或者传输方式|存储方式）。 浏览器的URL编码是UTF-8，url中的参数编码是跟随系统编码，通常也是UTF-8。例如&#34;q=%E6%98%A5%E8%8A%82&#34;，是字符的UTF8编码，每个字符前面加上“%”。 在javascript中，escape()得到的是unicode编码。encodeURI()方法得到的是utf-8编码。 URL只支持ASCII编码，所以URL中的字符必须编码。
+URL编码 URL中不支持特殊符号，也为了防止=&这样的符号造成奇异，需要为query键值对进行编码。 URL中只允许存在字母数字和-_.~这4个符号，还有一些保留字符。
+! * ' ( ) ; : @ & = + $ , / ? # [ ] URL只支持ASCII编码，所以URL中的字符必须编码。 标准ASCII编码有128个字符。 对于Unicode字符，RFC文档建议使用utf-8对其进行编码得到相应的字节，然后对每个字节执行百分号编码。关于encodeURI使用的还是UTF-8，并不会受到页面字符集的影响。 安全字符不需要被编码。编码要做的是把不安全字符用安全字符表示；另外，当安全字符作为值出现时，也需要编码。
+js提供了3中编码的方式。
+escape（69个）：*/@+-._0-9a-zA-Z encodeURI（82个）：!#$&&rsquo;()*+,/:;=?@-._~0-9a-zA-Z encodeURIComponent（71个）：!&rsquo;()*-._~0-9a-zA-Z 通常使用第2个和第3个。 encodeURI用于整个URI的编码。它的安全字符更多，可以使用;#&$这样的字符； encodeURIComponent用于URI中单个组件的编码。他的安全字符较少。例如对query中的value进行编码，如果value中包含了&#34;&&#34;,那么&#34;&&ldquo;就会变编码。
+ISO-8859-1 单字节编码，兼容ASCII，是JAVA网络传输使用的标准字符集
+urlEncode原理 url只能显示ascii支持的字符. 为了显示其他非ascii字符, 需要根据unicode字符集, 使用某一种编码方式(如UTF-8) 对字符进行编码, 并在编码结果的每个十六进制数字前面加上%.
+如: 汉字&#34;中&#34; 在unicode中的顺序为20013 10进制 20013 十六进制 4 e 2 d 二进制 0100 1110 0010 1101 utf8模版 1110XXXX 10XXXXXX 10XXXXXX utf8分割 0100 111000 101101 utf8编码 11100100 10111000 10101101 utf8 16进制 e4 b8 ad 结果 %e4%b8%ad 注意:在互联网上的大部分&#34;在线utf8转中文&#34;的工具, 给出的不是utf8编码, 而是unicode编码的16进制."><meta name=keywords content="编码,unicode,UTF8,"><meta property="og:title" content="字符编码"><meta property="og:description" content="字符编码 简介 unicode包含了世界上所有的字符。 gb2123只有中文字符，GBK是它的升级版。 UTF8 UTF-16 UTF-24是Unicode的实现方式（或者传输方式|存储方式）。 浏览器的URL编码是UTF-8，url中的参数编码是跟随系统编码，通常也是UTF-8。例如&#34;q=%E6%98%A5%E8%8A%82&#34;，是字符的UTF8编码，每个字符前面加上“%”。 在javascript中，escape()得到的是unicode编码。encodeURI()方法得到的是utf-8编码。 URL只支持ASCII编码，所以URL中的字符必须编码。
+URL编码 URL中不支持特殊符号，也为了防止=&这样的符号造成奇异，需要为query键值对进行编码。 URL中只允许存在字母数字和-_.~这4个符号，还有一些保留字符。
+! * ' ( ) ; : @ & = + $ , / ? # [ ] URL只支持ASCII编码，所以URL中的字符必须编码。 标准ASCII编码有128个字符。 对于Unicode字符，RFC文档建议使用utf-8对其进行编码得到相应的字节，然后对每个字节执行百分号编码。关于encodeURI使用的还是UTF-8，并不会受到页面字符集的影响。 安全字符不需要被编码。编码要做的是把不安全字符用安全字符表示；另外，当安全字符作为值出现时，也需要编码。
+js提供了3中编码的方式。
+escape（69个）：*/@+-._0-9a-zA-Z encodeURI（82个）：!#$&&rsquo;()*+,/:;=?@-._~0-9a-zA-Z encodeURIComponent（71个）：!&rsquo;()*-._~0-9a-zA-Z 通常使用第2个和第3个。 encodeURI用于整个URI的编码。它的安全字符更多，可以使用;#&$这样的字符； encodeURIComponent用于URI中单个组件的编码。他的安全字符较少。例如对query中的value进行编码，如果value中包含了&#34;&&#34;,那么&#34;&&ldquo;就会变编码。
+ISO-8859-1 单字节编码，兼容ASCII，是JAVA网络传输使用的标准字符集
+urlEncode原理 url只能显示ascii支持的字符. 为了显示其他非ascii字符, 需要根据unicode字符集, 使用某一种编码方式(如UTF-8) 对字符进行编码, 并在编码结果的每个十六进制数字前面加上%.
+如: 汉字&#34;中&#34; 在unicode中的顺序为20013 10进制 20013 十六进制 4 e 2 d 二进制 0100 1110 0010 1101 utf8模版 1110XXXX 10XXXXXX 10XXXXXX utf8分割 0100 111000 101101 utf8编码 11100100 10111000 10101101 utf8 16进制 e4 b8 ad 结果 %e4%b8%ad 注意:在互联网上的大部分&#34;在线utf8转中文&#34;的工具, 给出的不是utf8编码, 而是unicode编码的16进制."><meta property="og:type" content="article"><meta property="og:url" content="https://barryoo.github.io/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/"><meta property="og:image" content="https://barryoo.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2019-11-23T00:00:00+00:00"><meta property="article:modified_time" content="2019-11-23T00:00:00+00:00"><meta property="og:site_name" content="barry blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://barryoo.github.io/images/share.png"><meta name=twitter:title content="字符编码"><meta name=twitter:description content="字符编码 简介 unicode包含了世界上所有的字符。 gb2123只有中文字符，GBK是它的升级版。 UTF8 UTF-16 UTF-24是Unicode的实现方式（或者传输方式|存储方式）。 浏览器的URL编码是UTF-8，url中的参数编码是跟随系统编码，通常也是UTF-8。例如&#34;q=%E6%98%A5%E8%8A%82&#34;，是字符的UTF8编码，每个字符前面加上“%”。 在javascript中，escape()得到的是unicode编码。encodeURI()方法得到的是utf-8编码。 URL只支持ASCII编码，所以URL中的字符必须编码。
+URL编码 URL中不支持特殊符号，也为了防止=&这样的符号造成奇异，需要为query键值对进行编码。 URL中只允许存在字母数字和-_.~这4个符号，还有一些保留字符。
+! * ' ( ) ; : @ & = + $ , / ? # [ ] URL只支持ASCII编码，所以URL中的字符必须编码。 标准ASCII编码有128个字符。 对于Unicode字符，RFC文档建议使用utf-8对其进行编码得到相应的字节，然后对每个字节执行百分号编码。关于encodeURI使用的还是UTF-8，并不会受到页面字符集的影响。 安全字符不需要被编码。编码要做的是把不安全字符用安全字符表示；另外，当安全字符作为值出现时，也需要编码。
+js提供了3中编码的方式。
+escape（69个）：*/@+-._0-9a-zA-Z encodeURI（82个）：!#$&&rsquo;()*+,/:;=?@-._~0-9a-zA-Z encodeURIComponent（71个）：!&rsquo;()*-._~0-9a-zA-Z 通常使用第2个和第3个。 encodeURI用于整个URI的编码。它的安全字符更多，可以使用;#&$这样的字符； encodeURIComponent用于URI中单个组件的编码。他的安全字符较少。例如对query中的value进行编码，如果value中包含了&#34;&&#34;,那么&#34;&&ldquo;就会变编码。
+ISO-8859-1 单字节编码，兼容ASCII，是JAVA网络传输使用的标准字符集
+urlEncode原理 url只能显示ascii支持的字符. 为了显示其他非ascii字符, 需要根据unicode字符集, 使用某一种编码方式(如UTF-8) 对字符进行编码, 并在编码结果的每个十六进制数字前面加上%.
+如: 汉字&#34;中&#34; 在unicode中的顺序为20013 10进制 20013 十六进制 4 e 2 d 二进制 0100 1110 0010 1101 utf8模版 1110XXXX 10XXXXXX 10XXXXXX utf8分割 0100 111000 101101 utf8编码 11100100 10111000 10101101 utf8 16进制 e4 b8 ad 结果 %e4%b8%ad 注意:在互联网上的大部分&#34;在线utf8转中文&#34;的工具, 给出的不是utf8编码, 而是unicode编码的16进制."><meta itemprop=name content="字符编码"><meta itemprop=description content="字符编码 简介 unicode包含了世界上所有的字符。 gb2123只有中文字符，GBK是它的升级版。 UTF8 UTF-16 UTF-24是Unicode的实现方式（或者传输方式|存储方式）。 浏览器的URL编码是UTF-8，url中的参数编码是跟随系统编码，通常也是UTF-8。例如&#34;q=%E6%98%A5%E8%8A%82&#34;，是字符的UTF8编码，每个字符前面加上“%”。 在javascript中，escape()得到的是unicode编码。encodeURI()方法得到的是utf-8编码。 URL只支持ASCII编码，所以URL中的字符必须编码。
+URL编码 URL中不支持特殊符号，也为了防止=&这样的符号造成奇异，需要为query键值对进行编码。 URL中只允许存在字母数字和-_.~这4个符号，还有一些保留字符。
+! * ' ( ) ; : @ & = + $ , / ? # [ ] URL只支持ASCII编码，所以URL中的字符必须编码。 标准ASCII编码有128个字符。 对于Unicode字符，RFC文档建议使用utf-8对其进行编码得到相应的字节，然后对每个字节执行百分号编码。关于encodeURI使用的还是UTF-8，并不会受到页面字符集的影响。 安全字符不需要被编码。编码要做的是把不安全字符用安全字符表示；另外，当安全字符作为值出现时，也需要编码。
+js提供了3中编码的方式。
+escape（69个）：*/@+-._0-9a-zA-Z encodeURI（82个）：!#$&&rsquo;()*+,/:;=?@-._~0-9a-zA-Z encodeURIComponent（71个）：!&rsquo;()*-._~0-9a-zA-Z 通常使用第2个和第3个。 encodeURI用于整个URI的编码。它的安全字符更多，可以使用;#&$这样的字符； encodeURIComponent用于URI中单个组件的编码。他的安全字符较少。例如对query中的value进行编码，如果value中包含了&#34;&&#34;,那么&#34;&&ldquo;就会变编码。
+ISO-8859-1 单字节编码，兼容ASCII，是JAVA网络传输使用的标准字符集
+urlEncode原理 url只能显示ascii支持的字符. 为了显示其他非ascii字符, 需要根据unicode字符集, 使用某一种编码方式(如UTF-8) 对字符进行编码, 并在编码结果的每个十六进制数字前面加上%.
+如: 汉字&#34;中&#34; 在unicode中的顺序为20013 10进制 20013 十六进制 4 e 2 d 二进制 0100 1110 0010 1101 utf8模版 1110XXXX 10XXXXXX 10XXXXXX utf8分割 0100 111000 101101 utf8编码 11100100 10111000 10101101 utf8 16进制 e4 b8 ad 结果 %e4%b8%ad 注意:在互联网上的大部分&#34;在线utf8转中文&#34;的工具, 给出的不是utf8编码, 而是unicode编码的16进制."><meta itemprop=datePublished content="2019-11-23T00:00:00+00:00"><meta itemprop=dateModified content="2019-11-23T00:00:00+00:00"><meta itemprop=wordCount content="142"><meta itemprop=image content="https://barryoo.github.io/images/share.png"><meta itemprop=keywords content="编码,unicode,UTF8,"><meta name=referrer content="no-referrer-when-downgrade"><style>html{scroll-behavior:smooth}body{font-family:Verdana,sans-serif;margin:auto;padding:20px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}header{margin:auto;text-align:center;max-width:720px}.menu{justify-content:space-between;display:flex}main{margin:0 auto}.blog-posts-container{width:fit-content;margin:auto}.tag-container{max-width:720px}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0;text-align:center;color:#000;font-size:25px}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}.toc{max-width:250px;width:auto;top:20%;position:fixed;font-size:13px}.toc a{color:rgba(128,128,128,.4);text-decoration:none;display:block}.toc a:hover{color:#777}article{max-width:1080px;margin:0 auto;margin-left:calc(max((100% - 1080px)/2,250px))}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li span{margin-right:30px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}@media only screen and (max-width:1020px){.toc{width:auto;position:relative}article{padding-left:0;margin:0 auto}}</style></head><body><header><nav class=menu><a id=siteTitle href=/ class=title>Barry Blog</a><div style=display:flex><a href=/>Home</a>
+<a href=https://github.com/barryOO>github</a>
+<a href=/blog/>Blog</a></div></nav></header><main><aside class=toc><a href=#siteTitle style=margin-left:40px>top</a><nav id=TableOfContents><ul><li><a href=#简介>简介</a><ul><li><a href=#url编码>URL编码</a></li><li><a href=#iso-8859-1>ISO-8859-1</a></li><li><a href=#urlencode原理>urlEncode原理</a></li><li><a href=#javascript>javascript</a></li><li><a href=#base64编码>base64编码</a></li></ul></li></ul></nav></aside><article><h1 style=font-size:40px>字符编码</h1><p><i><time datetime=2019-11-23 pubdate>23 Nov, 2019</time></i></p><p><a href=https://barryoo.github.io/blog/%E7%BC%96%E7%A0%81/>#编码</a>
+<a href=https://barryoo.github.io/blog/unicode/>#unicode</a>
+<a href=https://barryoo.github.io/blog/utf8/>#UTF8</a></p><content><h1 id=字符编码>字符编码</h1><h2 id=简介>简介</h2><p><strong>unicode</strong>包含了世界上所有的字符。
+<strong>gb2123</strong>只有中文字符，GBK是它的升级版。
+<strong>UTF8 UTF-16 UTF-24</strong>是Unicode的实现方式（或者传输方式|存储方式）。
+浏览器的<strong>URL编码</strong>是UTF-8，url中的参数编码是跟随系统编码，通常也是UTF-8。例如"q=%E6%98%A5%E8%8A%82"，是字符的UTF8编码，每个字符前面加上“%”。
+在javascript中，escape()得到的是unicode编码。encodeURI()方法得到的是utf-8编码。
+URL只支持ASCII编码，所以URL中的字符必须编码。</p><h3 id=url编码>URL编码</h3><p>URL中不支持特殊符号，也为了防止=&这样的符号造成奇异，需要为query键值对进行编码。
+URL中只允许存在字母数字和-_.~这4个符号，还有一些保留字符。</p><pre><code>! * ' ( ) ; : @ &amp; = + $ , / ? # [ ]
+</code></pre><p>URL只支持ASCII编码，所以URL中的字符必须编码。
+标准ASCII编码有128个字符。
+对于Unicode字符，RFC文档建议使用utf-8对其进行编码得到相应的字节，然后对每个字节执行百分号编码。关于encodeURI使用的还是UTF-8，并不会受到页面字符集的影响。
+安全字符不需要被编码。编码要做的是把不安全字符用安全字符表示；另外，当安全字符作为值出现时，也需要编码。</p><p>js提供了3中编码的方式。</p><ul><li>escape（69个）：*/@+-._0-9a-zA-Z</li><li>encodeURI（82个）：!#$&&rsquo;()*+,/:;=?@-._~0-9a-zA-Z</li><li>encodeURIComponent（71个）：!&rsquo;()*-._~0-9a-zA-Z</li></ul><p>通常使用第2个和第3个。
+encodeURI用于整个URI的编码。它的安全字符更多，可以使用;#&$这样的字符；
+encodeURIComponent用于URI中单个组件的编码。他的安全字符较少。例如对query中的value进行编码，如果value中包含了"&",那么"&&ldquo;就会变编码。</p><h3 id=iso-8859-1>ISO-8859-1</h3><p>单字节编码，兼容ASCII，是JAVA网络传输使用的标准字符集</p><h3 id=urlencode原理>urlEncode原理</h3><p>url只能显示ascii支持的字符. 为了显示其他非ascii字符, 需要根据unicode字符集, 使用某一种编码方式(如UTF-8) 对字符进行编码, 并在编码结果的每个十六进制数字前面加上%.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback><span style=display:flex><span>如: 汉字&#34;中&#34;
+</span></span><span style=display:flex><span>在unicode中的顺序为20013
+</span></span><span style=display:flex><span>10进制 20013   
+</span></span><span style=display:flex><span>十六进制    4      e     2     d 
+</span></span><span style=display:flex><span>二进制     0100  1110  0010  1101
+</span></span><span style=display:flex><span>utf8模版 1110XXXX  10XXXXXX 10XXXXXX
+</span></span><span style=display:flex><span>utf8分割   0100    111000   101101
+</span></span><span style=display:flex><span>utf8编码  11100100 10111000 10101101
+</span></span><span style=display:flex><span>utf8 16进制  e4    b8     ad
+</span></span><span style=display:flex><span>结果 %e4%b8%ad
+</span></span></code></pre></div><p>注意:在互联网上的大部分"在线utf8转中文"的工具, 给出的不是utf8编码, 而是unicode编码的16进制.</p><h3 id=javascript>javascript</h3><p>str.charCodeAt(0) 可以获得字符串str的第0个字符在unicode中的位置.
+escape 把非ascii字符,根据unicode字符集,转为unicode编码的16进制, 并在编码前面加上%u
+unescape 与escape相反
+encodeURI 与上述"urlEncode原理"相同</p><h3 id=base64编码>base64编码</h3><blockquote><p>注意:与base64进制转换区分开. base64编码需要使用到base64进制转换.
+base64: 把二进制数字用base64字符表示.
+base64进制转换: 把数字用base64字符表示.
+base64字符集: 先把字符转为二进制, 然后每24位转为32位, 再用64进制表示.</p></blockquote><p>把字符转为"base64字符表"中的字符.
+本质是把每24位, 转为32位; 即每6位前补2位00, 转为8位, 得到新的数字, 再用base64字符集表示.
+base64编码不是对字符串的编码转换, 而是对byte数组的. 所以在转换前,需要把字符串使用你使用的字符集的编码方式, 转为byte数组.</p><p>通常base64字符集为A-Z, a-z, 0-9, +, /, =. 但是也有一些变种, 如A-Z, a-z, 0-9, -, _, =.
+当字符串长度不足24位时, 用0补位, <code>=</code>就用于表示00000000, 使得转换后的字符串长度为4的倍数.
+base64不是url安全的, 因为包含了/和+等字符. 但是可以使用urlEncode对base64编码后的字符串进行编码, 使其变为url安全的. 或者把/+替换为其他字符,进行base64.</p><p><img src=/img/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81.asset/1669184939576.png alt="picture 1"><br><img src=/img/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81.asset/char-code-2.jpg alt="picture 2"></p></content></article></main><footer></footer></body></html>

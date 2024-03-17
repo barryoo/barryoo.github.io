@@ -1,0 +1,63 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://barryoo.github.io/favicon.ico><title>Java多项目依赖管理 | Barry Blog</title>
+<meta name=title content="Java多项目依赖管理"><meta name=description content="maven依赖继承与聚合 见官方文档
+spring的依赖管理 以spring-cloud为例进行说明
+spring-cloud-dependencies Hoxton.SR6 定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.
+组件内 组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增. 也会定义组件的外部依赖的版本号, 对其统一管理.
+我使用的依赖管理 与spring的依赖管理类似, 也有不同之处.
+每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义. 这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.
+版本升级策略 版本号 大版本.小版本.修复版本 大版本:当组件出现重大迭代,会增加大版本号. 小版本:当组件新增feature,会增加小版本号. 修复版本:当修复缺陷,会增加修复版本号.
+升级策略
+定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码. 修改代码,并提交代码. 代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码. 发布组件 定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT 题外:微服务中monoRepo与multiRepo如何选择. monorepo: 单一代码库,所有项目都在这一个代码库中. multiRepo: 多代码库, 每个项目一个代码库.
+首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.
+multiRepo优点:
+每个人只需要关注自己负责的服务的代码. 小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限. IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便. CI/CD 方便 版本管理方便, 减少代码冲突. multiRepo缺点:
+需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理."><meta name=keywords content="Java,Maven,依赖,"><meta property="og:title" content="Java多项目依赖管理"><meta property="og:description" content="maven依赖继承与聚合 见官方文档
+spring的依赖管理 以spring-cloud为例进行说明
+spring-cloud-dependencies Hoxton.SR6 定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.
+组件内 组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增. 也会定义组件的外部依赖的版本号, 对其统一管理.
+我使用的依赖管理 与spring的依赖管理类似, 也有不同之处.
+每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义. 这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.
+版本升级策略 版本号 大版本.小版本.修复版本 大版本:当组件出现重大迭代,会增加大版本号. 小版本:当组件新增feature,会增加小版本号. 修复版本:当修复缺陷,会增加修复版本号.
+升级策略
+定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码. 修改代码,并提交代码. 代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码. 发布组件 定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT 题外:微服务中monoRepo与multiRepo如何选择. monorepo: 单一代码库,所有项目都在这一个代码库中. multiRepo: 多代码库, 每个项目一个代码库.
+首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.
+multiRepo优点:
+每个人只需要关注自己负责的服务的代码. 小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限. IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便. CI/CD 方便 版本管理方便, 减少代码冲突. multiRepo缺点:
+需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理."><meta property="og:type" content="article"><meta property="og:url" content="https://barryoo.github.io/java%E5%A4%9A%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/"><meta property="og:image" content="https://barryoo.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2020-06-06T00:00:00+00:00"><meta property="article:modified_time" content="2020-06-06T00:00:00+00:00"><meta property="og:site_name" content="barry blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://barryoo.github.io/images/share.png"><meta name=twitter:title content="Java多项目依赖管理"><meta name=twitter:description content="maven依赖继承与聚合 见官方文档
+spring的依赖管理 以spring-cloud为例进行说明
+spring-cloud-dependencies Hoxton.SR6 定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.
+组件内 组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增. 也会定义组件的外部依赖的版本号, 对其统一管理.
+我使用的依赖管理 与spring的依赖管理类似, 也有不同之处.
+每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义. 这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.
+版本升级策略 版本号 大版本.小版本.修复版本 大版本:当组件出现重大迭代,会增加大版本号. 小版本:当组件新增feature,会增加小版本号. 修复版本:当修复缺陷,会增加修复版本号.
+升级策略
+定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码. 修改代码,并提交代码. 代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码. 发布组件 定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT 题外:微服务中monoRepo与multiRepo如何选择. monorepo: 单一代码库,所有项目都在这一个代码库中. multiRepo: 多代码库, 每个项目一个代码库.
+首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.
+multiRepo优点:
+每个人只需要关注自己负责的服务的代码. 小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限. IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便. CI/CD 方便 版本管理方便, 减少代码冲突. multiRepo缺点:
+需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理."><meta itemprop=name content="Java多项目依赖管理"><meta itemprop=description content="maven依赖继承与聚合 见官方文档
+spring的依赖管理 以spring-cloud为例进行说明
+spring-cloud-dependencies Hoxton.SR6 定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.
+组件内 组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增. 也会定义组件的外部依赖的版本号, 对其统一管理.
+我使用的依赖管理 与spring的依赖管理类似, 也有不同之处.
+每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义. 这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.
+版本升级策略 版本号 大版本.小版本.修复版本 大版本:当组件出现重大迭代,会增加大版本号. 小版本:当组件新增feature,会增加小版本号. 修复版本:当修复缺陷,会增加修复版本号.
+升级策略
+定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码. 修改代码,并提交代码. 代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码. 发布组件 定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT 题外:微服务中monoRepo与multiRepo如何选择. monorepo: 单一代码库,所有项目都在这一个代码库中. multiRepo: 多代码库, 每个项目一个代码库.
+首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.
+multiRepo优点:
+每个人只需要关注自己负责的服务的代码. 小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限. IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便. CI/CD 方便 版本管理方便, 减少代码冲突. multiRepo缺点:
+需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理."><meta itemprop=datePublished content="2020-06-06T00:00:00+00:00"><meta itemprop=dateModified content="2020-06-06T00:00:00+00:00"><meta itemprop=wordCount content="97"><meta itemprop=image content="https://barryoo.github.io/images/share.png"><meta itemprop=keywords content="Java,Maven,依赖,"><meta name=referrer content="no-referrer-when-downgrade"><style>html{scroll-behavior:smooth}body{font-family:Verdana,sans-serif;margin:auto;padding:20px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}header{margin:auto;text-align:center;max-width:720px}.menu{justify-content:space-between;display:flex}main{margin:0 auto}.blog-posts-container{width:fit-content;margin:auto}.tag-container{max-width:720px}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0;text-align:center;color:#000;font-size:25px}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}.toc{max-width:250px;width:auto;top:20%;position:fixed;font-size:13px}.toc a{color:rgba(128,128,128,.4);text-decoration:none;display:block}.toc a:hover{color:#777}article{max-width:1080px;margin:0 auto;margin-left:calc(max((100% - 1080px)/2,250px))}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li span{margin-right:30px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}@media only screen and (max-width:1020px){.toc{width:auto;position:relative}article{padding-left:0;margin:0 auto}}</style></head><body><header><nav class=menu><a id=siteTitle href=/ class=title>Barry Blog</a><div style=display:flex><a href=/>Home</a>
+<a href=https://github.com/barryOO>github</a>
+<a href=/blog/>Blog</a></div></nav></header><main><aside class=toc><a href=#siteTitle style=margin-left:40px>top</a><nav id=TableOfContents><ul><li><a href=#maven依赖继承与聚合>maven依赖继承与聚合</a></li><li><a href=#spring的依赖管理>spring的依赖管理</a></li><li><a href=#我使用的依赖管理>我使用的依赖管理</a></li><li><a href=#版本升级策略>版本升级策略</a></li><li><a href=#题外微服务中monorepo与multirepo如何选择>题外:微服务中monoRepo与multiRepo如何选择.</a></li></ul></nav></aside><article><h1 style=font-size:40px>Java多项目依赖管理</h1><p><i><time datetime=2020-06-06 pubdate>06 Jun, 2020</time></i></p><p><a href=https://barryoo.github.io/blog/java/>#Java</a>
+<a href=https://barryoo.github.io/blog/maven/>#Maven</a>
+<a href=https://barryoo.github.io/blog/%E4%BE%9D%E8%B5%96/>#依赖</a></p><content><h2 id=maven依赖继承与聚合>maven依赖继承与聚合</h2><blockquote><p>见官方文档</p></blockquote><h2 id=spring的依赖管理>spring的依赖管理</h2><p>以spring-cloud为例进行说明</p><p><strong>spring-cloud-dependencies Hoxton.SR6</strong>
+定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.</p><p><strong>组件内</strong>
+组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增.
+也会定义组件的外部依赖的版本号, 对其统一管理.</p><h2 id=我使用的依赖管理>我使用的依赖管理</h2><p>与spring的依赖管理类似, 也有不同之处.</p><p>每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义.
+这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.</p><h2 id=版本升级策略>版本升级策略</h2><ul><li><p>版本号
+大版本.小版本.修复版本
+大版本:当组件出现重大迭代,会增加大版本号.
+小版本:当组件新增feature,会增加小版本号.
+修复版本:当修复缺陷,会增加修复版本号.</p></li><li><p>升级策略</p></li></ul><ol><li>定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码.</li><li>修改代码,并提交代码.</li><li>代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码.</li><li>发布组件</li><li>定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT</li></ol><h2 id=题外微服务中monorepo与multirepo如何选择>题外:微服务中monoRepo与multiRepo如何选择.</h2><p>monorepo: 单一代码库,所有项目都在这一个代码库中.
+multiRepo: 多代码库, 每个项目一个代码库.</p><blockquote><p>首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.</p></blockquote><p>multiRepo优点:</p><ol><li>每个人只需要关注自己负责的服务的代码.</li><li>小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限.</li><li>IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便.</li><li>CI/CD 方便</li><li>版本管理方便, 减少代码冲突.</li></ol><p>multiRepo缺点:</p><ol><li>需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理.</li><li>降低开发者维护公共技术模块的意愿. 因为修改公共模块,哪怕只修改一行代码,都需要升级版本, 然后对很多 git 仓库进行代码提交. 服务发布前,还要把相关模块的版本从 SNAPSHOT 改为 RELEASE, 有点麻烦.</li></ol><p>multiRepo的优点就是monoRepo的缺点.</p><ul><li>在微服务架构中, 每个服务有专门的负责人, multiRepo更合适. 权限控制更全面.</li><li>团队人越多, 代码冲突的可能性越大. multiRepo可以大大减少该情况.</li><li>在团队人员素质参差不齐的情况下, monoRepo有发展为分布式单体的倾向, 各项目之间以及公共模块会产生大量耦合.</li><li>从管理的角度, multiRepo比monoRepo有更强的可控性.</li></ul><p>我个人建议:除了"团队人非常少,项目周期非常短", 其他情况应使用multiRepo.</p></content></article></main><footer></footer></body></html>

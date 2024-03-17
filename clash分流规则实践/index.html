@@ -1,0 +1,331 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://barryoo.github.io/favicon.ico><title>Clash分流规则实践 | Barry Blog</title>
+<meta name=title content="Clash分流规则实践"><meta name=description content="参考 https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers
+目标 实现clash配置分流规则, 以及快速修改规则.
+为什么要使用clash来控制分流规则? 我们确实可以通过浏览器扩展SwitchyOmega, 在浏览器中修改当前网站的代理, 但只能实现一个代理, 无法实现不同的网站走不同的代理. 通过clash分流,可以实现以下效果:
+youtube.com 走香港代理,延迟低. openai.com 走英国代理,防止被屏蔽. 如何快速修改规则 在SwitchyOmega中, 可以快速修改浏览器的代理规则, 但是没有一种浏览器扩展可以与clash通信,来修改规则. 这里提供shell命令的方式来修改, 比修改config.yaml文件要方便些. 期待有人可以开发浏览器扩展与clash通信. shell命令可以与alfred等快速启动软件结合, 进而实现更方便的方式. 也可以在alfred中创建workflow来修改规则.
+# 添加openai.com走ai代理 proxy -y &#34;DOMAIN,openai.com,ai&#34; # 删除google.com走proxies代理 proxy -n &#34;DOMAIN,google.com,proxies&#34; proxy命令的代码如下,使用方法:
+复制以下代码, 在你的环境变量目录下新建文件名为proxy,并粘贴一下代码,保存. (环境变量目录如: /usr/local/bin) terminal中执行chmod +x proxy 重启terminal #!/bin/bash CONFIG_FILE=&#34;$HOME/.config/clash/config.yaml&#34; PORT=9090; while getopts &#34;y:n:&#34; opt; do case ${opt} in y ) # Add a new rule if [ -z &#34;$2&#34; ]; then echo &#34;Please provide a rule with the -y option."><meta name=keywords content="Clash,"><meta property="og:title" content="Clash分流规则实践"><meta property="og:description" content="参考 https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers
+目标 实现clash配置分流规则, 以及快速修改规则.
+为什么要使用clash来控制分流规则? 我们确实可以通过浏览器扩展SwitchyOmega, 在浏览器中修改当前网站的代理, 但只能实现一个代理, 无法实现不同的网站走不同的代理. 通过clash分流,可以实现以下效果:
+youtube.com 走香港代理,延迟低. openai.com 走英国代理,防止被屏蔽. 如何快速修改规则 在SwitchyOmega中, 可以快速修改浏览器的代理规则, 但是没有一种浏览器扩展可以与clash通信,来修改规则. 这里提供shell命令的方式来修改, 比修改config.yaml文件要方便些. 期待有人可以开发浏览器扩展与clash通信. shell命令可以与alfred等快速启动软件结合, 进而实现更方便的方式. 也可以在alfred中创建workflow来修改规则.
+# 添加openai.com走ai代理 proxy -y &#34;DOMAIN,openai.com,ai&#34; # 删除google.com走proxies代理 proxy -n &#34;DOMAIN,google.com,proxies&#34; proxy命令的代码如下,使用方法:
+复制以下代码, 在你的环境变量目录下新建文件名为proxy,并粘贴一下代码,保存. (环境变量目录如: /usr/local/bin) terminal中执行chmod +x proxy 重启terminal #!/bin/bash CONFIG_FILE=&#34;$HOME/.config/clash/config.yaml&#34; PORT=9090; while getopts &#34;y:n:&#34; opt; do case ${opt} in y ) # Add a new rule if [ -z &#34;$2&#34; ]; then echo &#34;Please provide a rule with the -y option."><meta property="og:type" content="article"><meta property="og:url" content="https://barryoo.github.io/clash%E5%88%86%E6%B5%81%E8%A7%84%E5%88%99%E5%AE%9E%E8%B7%B5/"><meta property="og:image" content="https://barryoo.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2023-05-06T00:00:00+00:00"><meta property="article:modified_time" content="2023-05-06T00:00:00+00:00"><meta property="og:site_name" content="barry blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://barryoo.github.io/images/share.png"><meta name=twitter:title content="Clash分流规则实践"><meta name=twitter:description content="参考 https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers
+目标 实现clash配置分流规则, 以及快速修改规则.
+为什么要使用clash来控制分流规则? 我们确实可以通过浏览器扩展SwitchyOmega, 在浏览器中修改当前网站的代理, 但只能实现一个代理, 无法实现不同的网站走不同的代理. 通过clash分流,可以实现以下效果:
+youtube.com 走香港代理,延迟低. openai.com 走英国代理,防止被屏蔽. 如何快速修改规则 在SwitchyOmega中, 可以快速修改浏览器的代理规则, 但是没有一种浏览器扩展可以与clash通信,来修改规则. 这里提供shell命令的方式来修改, 比修改config.yaml文件要方便些. 期待有人可以开发浏览器扩展与clash通信. shell命令可以与alfred等快速启动软件结合, 进而实现更方便的方式. 也可以在alfred中创建workflow来修改规则.
+# 添加openai.com走ai代理 proxy -y &#34;DOMAIN,openai.com,ai&#34; # 删除google.com走proxies代理 proxy -n &#34;DOMAIN,google.com,proxies&#34; proxy命令的代码如下,使用方法:
+复制以下代码, 在你的环境变量目录下新建文件名为proxy,并粘贴一下代码,保存. (环境变量目录如: /usr/local/bin) terminal中执行chmod +x proxy 重启terminal #!/bin/bash CONFIG_FILE=&#34;$HOME/.config/clash/config.yaml&#34; PORT=9090; while getopts &#34;y:n:&#34; opt; do case ${opt} in y ) # Add a new rule if [ -z &#34;$2&#34; ]; then echo &#34;Please provide a rule with the -y option."><meta itemprop=name content="Clash分流规则实践"><meta itemprop=description content="参考 https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers
+目标 实现clash配置分流规则, 以及快速修改规则.
+为什么要使用clash来控制分流规则? 我们确实可以通过浏览器扩展SwitchyOmega, 在浏览器中修改当前网站的代理, 但只能实现一个代理, 无法实现不同的网站走不同的代理. 通过clash分流,可以实现以下效果:
+youtube.com 走香港代理,延迟低. openai.com 走英国代理,防止被屏蔽. 如何快速修改规则 在SwitchyOmega中, 可以快速修改浏览器的代理规则, 但是没有一种浏览器扩展可以与clash通信,来修改规则. 这里提供shell命令的方式来修改, 比修改config.yaml文件要方便些. 期待有人可以开发浏览器扩展与clash通信. shell命令可以与alfred等快速启动软件结合, 进而实现更方便的方式. 也可以在alfred中创建workflow来修改规则.
+# 添加openai.com走ai代理 proxy -y &#34;DOMAIN,openai.com,ai&#34; # 删除google.com走proxies代理 proxy -n &#34;DOMAIN,google.com,proxies&#34; proxy命令的代码如下,使用方法:
+复制以下代码, 在你的环境变量目录下新建文件名为proxy,并粘贴一下代码,保存. (环境变量目录如: /usr/local/bin) terminal中执行chmod +x proxy 重启terminal #!/bin/bash CONFIG_FILE=&#34;$HOME/.config/clash/config.yaml&#34; PORT=9090; while getopts &#34;y:n:&#34; opt; do case ${opt} in y ) # Add a new rule if [ -z &#34;$2&#34; ]; then echo &#34;Please provide a rule with the -y option."><meta itemprop=datePublished content="2023-05-06T00:00:00+00:00"><meta itemprop=dateModified content="2023-05-06T00:00:00+00:00"><meta itemprop=wordCount content="697"><meta itemprop=image content="https://barryoo.github.io/images/share.png"><meta itemprop=keywords content="Clash,"><meta name=referrer content="no-referrer-when-downgrade"><style>html{scroll-behavior:smooth}body{font-family:Verdana,sans-serif;margin:auto;padding:20px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}header{margin:auto;text-align:center;max-width:720px}.menu{justify-content:space-between;display:flex}main{margin:0 auto}.blog-posts-container{width:fit-content;margin:auto}.tag-container{max-width:720px}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0;text-align:center;color:#000;font-size:25px}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}.toc{max-width:250px;width:auto;top:20%;position:fixed;font-size:13px}.toc a{color:rgba(128,128,128,.4);text-decoration:none;display:block}.toc a:hover{color:#777}article{max-width:1080px;margin:0 auto;margin-left:calc(max((100% - 1080px)/2,250px))}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li span{margin-right:30px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}@media only screen and (max-width:1020px){.toc{width:auto;position:relative}article{padding-left:0;margin:0 auto}}</style></head><body><header><nav class=menu><a id=siteTitle href=/ class=title>Barry Blog</a><div style=display:flex><a href=/>Home</a>
+<a href=https://github.com/barryOO>github</a>
+<a href=/blog/>Blog</a></div></nav></header><main><aside class=toc><a href=#siteTitle style=margin-left:40px>top</a><nav id=TableOfContents><ul><li><a href=#参考>参考</a></li><li><a href=#目标>目标</a></li><li><a href=#为什么要使用clash来控制分流规则>为什么要使用clash来控制分流规则?</a></li><li><a href=#如何快速修改规则>如何快速修改规则</a></li><li><a href=#配置分流规则>配置分流规则</a></li></ul></nav></aside><article><h1 style=font-size:40px>Clash分流规则实践</h1><p><i><time datetime=2023-05-06 pubdate>06 May, 2023</time></i></p><p><a href=https://barryoo.github.io/blog/clash/>#Clash</a></p><content><h2 id=参考>参考</h2><p><a href=https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers>https://github.com/Kuingsmile/clash-core/blob/main/docs/premium/rule-providers.md#rule-providers</a></p><h2 id=目标>目标</h2><p>实现clash配置分流规则, 以及快速修改规则.</p><h2 id=为什么要使用clash来控制分流规则>为什么要使用clash来控制分流规则?</h2><p>我们确实可以通过浏览器扩展SwitchyOmega, 在浏览器中修改当前网站的代理, 但只能实现一个代理, 无法实现不同的网站走不同的代理.
+通过clash分流,可以实现以下效果:</p><ul><li>youtube.com 走香港代理,延迟低.</li><li>openai.com 走英国代理,防止被屏蔽.</li></ul><h2 id=如何快速修改规则>如何快速修改规则</h2><p>在SwitchyOmega中, 可以快速修改浏览器的代理规则, 但是没有一种浏览器扩展可以与clash通信,来修改规则.
+这里提供shell命令的方式来修改, 比修改config.yaml文件要方便些. 期待有人可以开发浏览器扩展与clash通信.
+shell命令可以与alfred等快速启动软件结合, 进而实现更方便的方式. 也可以在alfred中创建workflow来修改规则.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#75715e># 添加openai.com走ai代理</span>
+</span></span><span style=display:flex><span>proxy -y <span style=color:#e6db74>&#34;DOMAIN,openai.com,ai&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 删除google.com走proxies代理</span>
+</span></span><span style=display:flex><span>proxy -n <span style=color:#e6db74>&#34;DOMAIN,google.com,proxies&#34;</span>
+</span></span></code></pre></div><p>proxy命令的代码如下,使用方法:</p><ul><li>复制以下代码, 在你的环境变量目录下新建文件名为<code>proxy</code>,并粘贴一下代码,保存. (环境变量目录如: /usr/local/bin)</li><li>terminal中执行<code>chmod +x proxy</code></li><li>重启terminal</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#75715e>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>CONFIG_FILE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span>$HOME<span style=color:#e6db74>/.config/clash/config.yaml&#34;</span>
+</span></span><span style=display:flex><span>PORT<span style=color:#f92672>=</span>9090;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> getopts <span style=color:#e6db74>&#34;y:n:&#34;</span> opt; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>case</span> <span style=color:#e6db74>${</span>opt<span style=color:#e6db74>}</span> in
+</span></span><span style=display:flex><span>    y <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># Add a new rule</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -z <span style=color:#e6db74>&#34;</span>$2<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;Please provide a rule with the -y option.&#34;</span>
+</span></span><span style=display:flex><span>        exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        RULE<span style=color:#f92672>=</span>$OPTARG
+</span></span><span style=display:flex><span>        sed -i <span style=color:#e6db74>&#34;&#34;</span> <span style=color:#e6db74>&#34;s/rules:/&amp;\n - </span>$RULE<span style=color:#e6db74>/&#34;</span> <span style=color:#e6db74>&#34;</span>$CONFIG_FILE<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;Added the following rule:&#34;</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;- </span>$RULE<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        RESPONSE<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>curl -X PUT http://127.0.0.1:9090/configs -H <span style=color:#e6db74>&#34;Content-Type: application/json&#34;</span> -d <span style=color:#e6db74>&#39;{&#34;path&#34;: &#34;~/.config/clash/config.yaml&#34;}&#39;</span> -i<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>        echo $RESPONSE
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>    n <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e># Remove an existing rule</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -z <span style=color:#e6db74>&#34;</span>$2<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;Please provide a rule with the -n option.&#34;</span>
+</span></span><span style=display:flex><span>        exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        RULE<span style=color:#f92672>=</span>$OPTARG
+</span></span><span style=display:flex><span>        sed -i <span style=color:#e6db74>&#34;&#34;</span> <span style=color:#e6db74>&#34;/</span>$RULE<span style=color:#e6db74>/d&#34;</span> <span style=color:#e6db74>&#34;</span>$CONFIG_FILE<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;Removed the following rule:&#34;</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;- </span>$RULE<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        RESPONSE<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>curl -X PUT http://127.0.0.1:9090/configs -H <span style=color:#e6db74>&#34;Content-Type: application/json&#34;</span> -d <span style=color:#e6db74>&#39;{&#34;path&#34;: &#34;~/.config/clash/config.yaml&#34;}&#39;</span> -i<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>        echo $RESPONSE
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>\?</span> <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      echo <span style=color:#e6db74>&#34;Invalid option: -</span>$OPTARG<span style=color:#e6db74>&#34;</span> 1&gt;&amp;<span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>      exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>    : <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>      echo <span style=color:#e6db74>&#34;Option -</span>$OPTARG<span style=color:#e6db74> requires an argument.&#34;</span> 1&gt;&amp;<span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>      exit <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>      ;;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>shift <span style=color:#66d9ef>$((</span>OPTIND <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#66d9ef>))</span>
+</span></span></code></pre></div><h2 id=配置分流规则>配置分流规则</h2><p>直接上配置, 配置项含义见注释.
+把该配置文件复制到clash配置目录, mac的目录为~/.config/clash/config.yaml, 替换文件中sub1与sub2为你自己的订阅即可.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>mixed-port</span>: <span style=color:#ae81ff>7890</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>socks-port</span>: <span style=color:#ae81ff>7891</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Linux 和 macOS 的 redir 代理端口</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>redir-port</span>: <span style=color:#ae81ff>7892</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 允许局域网的连接</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>allow-lan</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 规则模式：Rule（规则） / Global（全局代理）/ Direct（全局直连）</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>mode</span>: <span style=color:#ae81ff>rule</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 5 个级别：silent / info / warning / error / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>log-level</span>: <span style=color:#ae81ff>info</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Clash 的 RESTful API</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>external-controller</span>: <span style=color:#e6db74>&#39;0.0.0.0:9090&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># RESTful API 的口令</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>secret</span>: <span style=color:#e6db74>&#39;&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># === 你的代理订阅</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>proxy-providers</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>sub1</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./sub1.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 填写你得到的订阅地址</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#ae81ff>https://sub1.example.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>3600</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>health-check</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>enable</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>url</span>: <span style=color:#ae81ff>http://www.gstatic.com/generate_204</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>3600</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>sub2</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./sub2.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 填写你得到的订阅地址</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#ae81ff>https://sub2.example.com</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>3600</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>health-check</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>enable</span>: <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>url</span>: <span style=color:#ae81ff>http://www.gstatic.com/generate_204</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>3600</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 配置代理组. 你可以自由组合任意代理,成为一个组. 例如下方的配置中, proxyGroup:ai 只使用了sub1作为代理, proxyGroup:copilot 使用了sub1和sub2作为代理.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>proxy-groups</span>:
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Proxies为Gloabl/规则 模式下, 可用的所有代理.</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Proxies</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>proxies</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>自动切换</span>
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>手动切换</span>
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 下面配置的 手动切换/自动切换/sub1/sub2, 用于指明proxies中的所有代理.</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>手动切换</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>自动切换</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>url-test</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#39;http://www.gstatic.com/generate_204&#39;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tolerance</span>: <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>sub1-auto</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>url-test</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>2000</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>tolerance</span>: <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>     - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 下面的 ai/copilot 用于根据rule-providers进行自动分流.</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ai</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>copilot</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>select</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>use</span>:
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>sub2</span>
+</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>sub1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 你订阅的由第三方提供的网站规则.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>rule-providers</span>:
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#广告域名列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>reject</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/reject.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>icloud</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/icloud.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>apple</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/apple.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#Google 在中国大陆可直连的域名列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>google</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/google.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/google.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>#代理域名列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>proxy</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/proxy.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>direct</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/direct.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># 私有网络专用域名列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>private</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/private.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>gfw</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/gfw.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>greatfire</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/greatfire.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/greatfire.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 非中国大陆使用的顶级域名列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>tld-not-cn</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>domain</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/tld-not-cn.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>telegramcidr</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>ipcidr</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/telegramcidr.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 中国大陆 IP 地址列表</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>cncidr</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>ipcidr</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/cncidr.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 局域网</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>lancidr</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>ipcidr</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/lancidr.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>applications</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>classical</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>url</span>: <span style=color:#e6db74>&#34;https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/applications.yaml</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>86400</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># ai</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ai</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>file</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>behavior</span>: <span style=color:#ae81ff>classical</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>path</span>: <span style=color:#ae81ff>./ruleset/ai.yaml</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 分流规则. 把 proxy-groups 与 rule-provider 进行适配.</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>rules</span>:
+</span></span><span style=display:flex><span> <span style=color:#75715e># 格式: 适配mode,适配规则,指定代理.</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 其中, 适配mode有4种. 根据配置mode不同, 适配规则的填写方式也不同, 可以是rule-provider name, 也可以是ip, 也可以是域名.</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 你的个人规则, 可以在此处添加.</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,runwayml.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,sudoku.liteneo.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,clipdrop.co,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,torrentmac.net,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,copilot-proxy.githubusercontent.com,copilot</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,copilot-telemetry.githubusercontent.com,copilot</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,mspider.cn,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,sciter.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,meilisearch.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,pencarrie.com, Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,engage.cloudflareclient.com, Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,webmagic.io, Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,gradio.live,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,civitai.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,app.wombo.art,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,deepl.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,bing.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,bing.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,siskin.test.businessmatics.cn,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,accounts.intuit.com,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,shuqian.com,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN-SUFFIX,write.as,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,yacd.haishan.me,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>DOMAIN,siskin.businessmatics.io,Proxies</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 上面是自定义规则，想要的可以继续加。</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 下面的规则是通过rule-provider来确定的</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,applications,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,private,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,reject,REJECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,icloud,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,apple,DIRECT</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># RULE-SET,google,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,ai,ai</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,proxy,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,direct,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,lancidr,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,cncidr,DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,telegramcidr,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>RULE-SET,gfw,Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>GEOIP,,DIRECT</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># IP属地为CN的, 走DIRECT</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>GEOIP,CN,DIRECT</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 白名单模式,没有命中以上规则,则走Proxies</span>
+</span></span><span style=display:flex><span> - <span style=color:#ae81ff>MATCH,Proxies</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e># 黑名单模式,没有命中以上规则,则走DIRECT</span>
+</span></span><span style=display:flex><span> <span style=color:#75715e>#- MATCH,DIRECT</span>
+</span></span></code></pre></div></content></article></main><footer></footer></body></html>
