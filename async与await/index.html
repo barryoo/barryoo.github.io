@@ -1,0 +1,86 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://barryoo.github.io/favicon.ico><title>async与await | Barry Blog</title>
+<meta name=title content="async与await"><meta name=description content="async/await是一种新的语法，用同步的编程方式替换原有的回调函数和协程的用法.
+.net中的async await async async 用于修饰方法, 方法的返回值必须是 void或者Task<T>. async的目的是:使方法内的await关键字生效。
+await await 仅可用于由 async 关键字修饰的异步方法中。如果没有async会报错. await修饰的方法, 返回值必须是Task. 如果要对普通调用使用await, 可以使用Task.Run(()=>{ method() })把方法包装成一个返回值为Task的匿名函数.
+代码执行到await 标记的异步方法时, 主方法立即return, 之后的代码被阻塞,一直到异步方法完成,才会执行. 所以await, 相当于为本方法中 await之后的所有代码添加一个异步回调的任务.
+async修饰的方法, 被调用时,
+不加await, 异步方法是异步执行, 异步方法后面的代码在当前线程中同步执行. 加await, 异步方法是同步执行. 总结 异步可以提高响应能力。 异步不会阻塞线程 使用 async 来标记异步方法 使用 await 来指定暂停点，挂起其进度，在等待的异步过程完成后才能继续通过该点。同时，会将控制权返回至异步方法的调用方，调用方可以继续执行不依赖于异步返回结果的其它工作。 如果使用了 Async 最好一直使用它 异步方法避免使用 Task.Wait 和 Task.Result ，因为他们会导致死锁。
+javascript中的async await async async 函数返回的是一个 Promise 对象. await 只能出现在 async 函数中 如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。 如果 async 函数没有返回值， 它会返回 Promise."><meta name=keywords content=".net,javascript,async,await,"><meta property="og:title" content="async与await"><meta property="og:description" content="async/await是一种新的语法，用同步的编程方式替换原有的回调函数和协程的用法.
+.net中的async await async async 用于修饰方法, 方法的返回值必须是 void或者Task<T>. async的目的是:使方法内的await关键字生效。
+await await 仅可用于由 async 关键字修饰的异步方法中。如果没有async会报错. await修饰的方法, 返回值必须是Task. 如果要对普通调用使用await, 可以使用Task.Run(()=>{ method() })把方法包装成一个返回值为Task的匿名函数.
+代码执行到await 标记的异步方法时, 主方法立即return, 之后的代码被阻塞,一直到异步方法完成,才会执行. 所以await, 相当于为本方法中 await之后的所有代码添加一个异步回调的任务.
+async修饰的方法, 被调用时,
+不加await, 异步方法是异步执行, 异步方法后面的代码在当前线程中同步执行. 加await, 异步方法是同步执行. 总结 异步可以提高响应能力。 异步不会阻塞线程 使用 async 来标记异步方法 使用 await 来指定暂停点，挂起其进度，在等待的异步过程完成后才能继续通过该点。同时，会将控制权返回至异步方法的调用方，调用方可以继续执行不依赖于异步返回结果的其它工作。 如果使用了 Async 最好一直使用它 异步方法避免使用 Task.Wait 和 Task.Result ，因为他们会导致死锁。
+javascript中的async await async async 函数返回的是一个 Promise 对象. await 只能出现在 async 函数中 如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。 如果 async 函数没有返回值， 它会返回 Promise."><meta property="og:type" content="article"><meta property="og:url" content="https://barryoo.github.io/async%E4%B8%8Eawait/"><meta property="og:image" content="https://barryoo.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2022-06-19T00:00:00+00:00"><meta property="article:modified_time" content="2022-06-19T00:00:00+00:00"><meta property="og:site_name" content="barry blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://barryoo.github.io/images/share.png"><meta name=twitter:title content="async与await"><meta name=twitter:description content="async/await是一种新的语法，用同步的编程方式替换原有的回调函数和协程的用法.
+.net中的async await async async 用于修饰方法, 方法的返回值必须是 void或者Task<T>. async的目的是:使方法内的await关键字生效。
+await await 仅可用于由 async 关键字修饰的异步方法中。如果没有async会报错. await修饰的方法, 返回值必须是Task. 如果要对普通调用使用await, 可以使用Task.Run(()=>{ method() })把方法包装成一个返回值为Task的匿名函数.
+代码执行到await 标记的异步方法时, 主方法立即return, 之后的代码被阻塞,一直到异步方法完成,才会执行. 所以await, 相当于为本方法中 await之后的所有代码添加一个异步回调的任务.
+async修饰的方法, 被调用时,
+不加await, 异步方法是异步执行, 异步方法后面的代码在当前线程中同步执行. 加await, 异步方法是同步执行. 总结 异步可以提高响应能力。 异步不会阻塞线程 使用 async 来标记异步方法 使用 await 来指定暂停点，挂起其进度，在等待的异步过程完成后才能继续通过该点。同时，会将控制权返回至异步方法的调用方，调用方可以继续执行不依赖于异步返回结果的其它工作。 如果使用了 Async 最好一直使用它 异步方法避免使用 Task.Wait 和 Task.Result ，因为他们会导致死锁。
+javascript中的async await async async 函数返回的是一个 Promise 对象. await 只能出现在 async 函数中 如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。 如果 async 函数没有返回值， 它会返回 Promise."><meta itemprop=name content="async与await"><meta itemprop=description content="async/await是一种新的语法，用同步的编程方式替换原有的回调函数和协程的用法.
+.net中的async await async async 用于修饰方法, 方法的返回值必须是 void或者Task<T>. async的目的是:使方法内的await关键字生效。
+await await 仅可用于由 async 关键字修饰的异步方法中。如果没有async会报错. await修饰的方法, 返回值必须是Task. 如果要对普通调用使用await, 可以使用Task.Run(()=>{ method() })把方法包装成一个返回值为Task的匿名函数.
+代码执行到await 标记的异步方法时, 主方法立即return, 之后的代码被阻塞,一直到异步方法完成,才会执行. 所以await, 相当于为本方法中 await之后的所有代码添加一个异步回调的任务.
+async修饰的方法, 被调用时,
+不加await, 异步方法是异步执行, 异步方法后面的代码在当前线程中同步执行. 加await, 异步方法是同步执行. 总结 异步可以提高响应能力。 异步不会阻塞线程 使用 async 来标记异步方法 使用 await 来指定暂停点，挂起其进度，在等待的异步过程完成后才能继续通过该点。同时，会将控制权返回至异步方法的调用方，调用方可以继续执行不依赖于异步返回结果的其它工作。 如果使用了 Async 最好一直使用它 异步方法避免使用 Task.Wait 和 Task.Result ，因为他们会导致死锁。
+javascript中的async await async async 函数返回的是一个 Promise 对象. await 只能出现在 async 函数中 如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。 如果 async 函数没有返回值， 它会返回 Promise."><meta itemprop=datePublished content="2022-06-19T00:00:00+00:00"><meta itemprop=dateModified content="2022-06-19T00:00:00+00:00"><meta itemprop=wordCount content="223"><meta itemprop=image content="https://barryoo.github.io/images/share.png"><meta itemprop=keywords content=".net,javascript,async,await,"><meta name=referrer content="no-referrer-when-downgrade"><style>html{scroll-behavior:smooth}body{font-family:Verdana,sans-serif;margin:auto;padding:20px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}header{margin:auto;text-align:center;max-width:720px}.menu{justify-content:space-between;display:flex}main{margin:0 auto}.blog-posts-container{width:fit-content;margin:auto}.tag-container{max-width:720px}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0;text-align:center;color:#000;font-size:25px}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}.toc{max-width:250px;width:auto;top:20%;position:fixed;font-size:13px}.toc a{color:rgba(128,128,128,.4);text-decoration:none;display:block}.toc a:hover{color:#777}article{max-width:1080px;margin:0 auto;margin-left:calc(max((100% - 1080px)/2,250px))}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li span{margin-right:30px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}@media only screen and (max-width:1020px){.toc{width:auto;position:relative}article{padding-left:0;margin:0 auto}}</style></head><body><header><nav class=menu><a id=siteTitle href=/ class=title>Barry Blog</a><div style=display:flex><a href=/>Home</a>
+<a href=https://github.com/barryOO>github</a>
+<a href=/blog/>Blog</a></div></nav></header><main><aside class=toc><a href=#siteTitle style=margin-left:40px>top</a><nav id=TableOfContents><ul><li><a href=#net中的async-await>.net中的async await</a><ul><li><a href=#async>async</a></li><li><a href=#await>await</a></li><li><a href=#总结>总结</a></li></ul></li><li><a href=#javascript中的async-await>javascript中的async await</a><ul><li><a href=#async-1>async</a></li><li><a href=#await-1>await</a></li><li><a href=#综合样例>综合样例</a></li></ul></li></ul></nav></aside><article><h1 style=font-size:40px>async与await</h1><p><i><time datetime=2022-06-19 pubdate>19 Jun, 2022</time></i></p><p><a href=https://barryoo.github.io/blog/.net/>#.net</a>
+<a href=https://barryoo.github.io/blog/javascript/>#javascript</a>
+<a href=https://barryoo.github.io/blog/async/>#async</a>
+<a href=https://barryoo.github.io/blog/await/>#await</a></p><content><p>async/await是一种新的语法，用同步的编程方式替换原有的回调函数和协程的用法.</p><h2 id=net中的async-await>.net中的async await</h2><h3 id=async>async</h3><p>async 用于修饰方法, 方法的返回值必须是 <code>void</code>或者<code>Task&lt;T></code>.
+async的目的是:使方法内的await关键字生效。</p><h3 id=await>await</h3><p>await 仅可用于由 async 关键字修饰的异步方法中。如果没有async会报错.
+await修饰的方法, 返回值必须是Task. 如果要对普通调用使用await, 可以使用Task.Run(()=>{ method() })把方法包装成一个返回值为Task的匿名函数.</p><p>代码执行到await 标记的异步方法时, 主方法立即return, 之后的代码被阻塞,一直到异步方法完成,才会执行. 所以await, 相当于为本方法中 await之后的所有代码添加一个异步回调的任务.</p><p>async修饰的方法, 被调用时,</p><ul><li>不加await, 异步方法是异步执行, 异步方法后面的代码在当前线程中同步执行.</li><li>加await, 异步方法是同步执行.</li></ul><h3 id=总结>总结</h3><p>异步可以提高响应能力。
+异步不会阻塞线程
+使用 async 来标记异步方法
+使用 await 来指定暂停点，挂起其进度，在等待的异步过程完成后才能继续通过该点。同时，会将控制权返回至异步方法的调用方，调用方可以继续执行不依赖于异步返回结果的其它工作。
+如果使用了 Async 最好一直使用它
+异步方法避免使用 Task.Wait 和 Task<t>.Result ，因为他们会导致死锁。</p><h2 id=javascript中的async-await>javascript中的async await</h2><h3 id=async-1>async</h3><p>async 函数返回的是一个 Promise 对象.
+await 只能出现在 async 函数中
+如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。
+如果 async 函数没有返回值， 它会返回 Promise.resolve(undefined)。
+async 函数就是将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await</p><h3 id=await-1>await</h3><p>一般来说，都认为 await 是在等待一个 async 函数完成。不过按<a href="https://link.segmentfault.com/?enc=ucSylyRmETYcQxmjyg3Nlw%3D%3D.NtJUbQFG3AcojP3RISM1lBE%2Bw2PR2JlrRL6%2Bfo73CG%2F4Kaf0TCKjx0KWvjTWNVlBwMxLlel%2FSjq8EJHSBFVJb7BQmUJ0vFQuYyc64wqU0Uw%3D">语法说明</a>，await 等待的是一个表达式，这个表达式的计算结果是 Promise 对象或者其它值</p><p>await 后面实际是可以接普通函数调用或者直接量的</p><blockquote><p>如果一个函数本身就返回 Promise 对象，加 <code>async</code> 和不加 <code>async</code> 还是有一点点区别：加了 <code>async</code> 之后外面得到 Promise 对象并不是 <code>return</code> 的那一个.了解这一点后，如果我们需要在返回的 Promise 对象上附加一些东西，比如 <code>cancel()</code>，就得小心一点.</p></blockquote><p>await 只能出现在 async 函数中, 在最外层方法中,不能用 await 获取其async方法返回值的情况下，我们当然应该用原来的方式：then() 链来处理这个 Promise 对象，就像这样:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#a6e22e>testAsync</span>().<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>v</span> =&gt; {
+</span></span><span style=display:flex><span> <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>v</span>); <span style=color:#75715e>// 输出 hello async
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>});
+</span></span></code></pre></div><p>async修饰的方法, 被调用时:</p><ul><li>加await, 异步执行该方法, 立即return, 并把后续方法作为该异步方法的回调.</li><li>不加await, 由于异步方法返回的是promise,所以此时会得到一个promise, 后续方法会立即同步执行.</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>print</span>(){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;async print&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>callAsync</span>(){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>print</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;1&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 1. 不加await
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// callAsync();
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// console.log(&#34;2&#34;)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// output aysnc print  2 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 2. 加await,次数使用then代替
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>callAsync</span>().<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>v</span>=&gt;{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;2&#34;</span>)
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span><span style=color:#75715e>// output aysnc print  1 2
+</span></span></span></code></pre></div><p>关于async方法中return的时机, 被async修饰的方法, 会在await行和它之前的代码会被同步执行并return, 之后的代码会被回调.</p><h3 id=综合样例>综合样例</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>fn1</span>(){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>fn2</span>(){
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>async1</span>(){ 
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>fn3</span>();
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>fn3</span>(){ <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>4</span>); }
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>async1</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>new</span> Promise(<span style=color:#a6e22e>resolve</span> =&gt; <span style=color:#a6e22e>resolve</span>(<span style=color:#ae81ff>5</span>)).<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>res</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>res</span>));
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>6</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>fn2</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>7</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#a6e22e>fn1</span>();
+</span></span><span style=display:flex><span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#ae81ff>8</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>//output 1 2 4 7 8 3 6 5
+</span></span></span></code></pre></div></content></article></main><footer></footer></body></html>

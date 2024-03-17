@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Java on Barry Blog</title><link>https://barryoo.github.io/blog/java/</link><description>Recent content in Java on Barry Blog</description><generator>Hugo -- gohugo.io</generator><language>en-US</language><copyright>Copyright © 2023, Barry Chen.</copyright><lastBuildDate>Sat, 06 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://barryoo.github.io/blog/java/index.xml" rel="self" type="application/rss+xml"/><item><title>Java多项目依赖管理</title><link>https://barryoo.github.io/java%E5%A4%9A%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/</link><pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate><guid>https://barryoo.github.io/java%E5%A4%9A%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/</guid><description>maven依赖继承与聚合 见官方文档
+spring的依赖管理 以spring-cloud为例进行说明
+spring-cloud-dependencies Hoxton.SR6 定义spring-cloud中各个组件的版本. 组件的版本各不一致. 用于规定各组件之间的版本兼容性.
+组件内 组件以及组件的子模块的版本完全统一, 有任何改动都会导致整个组件的版本递增. 也会定义组件的外部依赖的版本号, 对其统一管理.
+我使用的依赖管理 与spring的依赖管理类似, 也有不同之处.
+每个组件的外部依赖版本, 不是在组件内定义, 而是由base-pom统一定义. 这样做的好处是,由于组件之间存在依赖,且组件的外部依赖可能冲突,为了避免冲突,外部依赖的版本统一管理.
+版本升级策略 版本号 大版本.小版本.修复版本 大版本:当组件出现重大迭代,会增加大版本号. 小版本:当组件新增feature,会增加小版本号. 修复版本:当修复缺陷,会增加修复版本号.
+升级策略
+定义新的开发版本, 如1.23.45-SNAPSHOT. 版本应用到组件内所有模块, 并提交代码. 修改代码,并提交代码. 代码通过测试,可以发布时, 修改版本为release. 如1.23.45. 版本应用到组件内所有模块. 并提交代码. 发布组件 定义新的开发版本, 如1.23.46-SNAPSHOT 或 1.24.0-SNAPSHOT 题外:微服务中monoRepo与multiRepo如何选择. monorepo: 单一代码库,所有项目都在这一个代码库中. multiRepo: 多代码库, 每个项目一个代码库.
+首先明确一点,无论团队大小, 既然是微服务, 那肯定会为每个服务指定负责人, 而不会交错负责.
+multiRepo优点:
+每个人只需要关注自己负责的服务的代码. 小团队,可以避免团队内有人随意修改他人负责的代码. 大团队,只开负责的代码仓库的权限. IDEA 中只打开自己负责的代码, 搜索代码什么的都很方便. CI/CD 方便 版本管理方便, 减少代码冲突. multiRepo缺点:
+需要搭建 maven 私仓, 对所有的公共技术模块进行严格的版本管理, 在 base-pom 中对版本进行统一管理.</description></item><item><title>如何使用Maven运行Java程序</title><link>https://barryoo.github.io/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8maven%E8%BF%90%E8%A1%8Cjava%E7%A8%8B%E5%BA%8F/</link><pubDate>Tue, 06 Aug 2019 00:00:00 +0000</pubDate><guid>https://barryoo.github.io/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8maven%E8%BF%90%E8%A1%8Cjava%E7%A8%8B%E5%BA%8F/</guid><description>目标 在不依赖任何IDE的情况下, 如何使用maven运行java程序.
+IDE做了什么 我们再使用IDEA开发时, 直接点击Run按钮,就可以运行.
+这是IDEA 点击RUN按钮后执行的命令, 通过参数指定每个位于maven repository中的jar包的路径, 以及项目中的类路径, 然后执行main方法. 在IDEA中点击RUN/DEBUG, 做的事情如下
+使用java 命令执行 命令中指定要运行的main方法的所在的class 命令中通过-classpath指定所有依赖的路径 对于三方依赖,指定其在.m2/repository中的路径 对于本项目中的lib模块,指定其编译后在target目录的位置 你可以自己本地运行下,看看控制台输出的命令是什么.
+/Library/Java/JavaVirtualMachines/jdk8.0.332/bin/java -Dmaven.multiModuleProjectDirectory=/Users/chen/workspace/system-controller -Dmaven.home=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3 -Dclassworlds.conf=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/bin/m2.conf -Dmaven.ext.class.path=/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven-event-listener.jar -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=58771:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds.license:/Applications/IntelliJ IDEA.app/Contents/plugins/maven/lib/maven3/boot/plexus-classworlds-2.6.0.jar org.codehaus.classworlds.Launcher com.example.App Maven是否可以直接运行java程序 maven的mvn test可以直接执行test代码, 但是maven没有maven run命令来直接执行main方法. 借助exec-maven-plugin插件, 可以通过mvn exec来执行main方法.
+如何使用maven直接运行java程序 按照以下命令, 就可以直接运行代码.
+mvn clean compile mvn exec:java -Dexec.mainClass=&amp;#34;cpoo.win.DrinkDemo&amp;#34; spring-boot中也可以这样执行. 在多模块项目中,如果要运行的模块依赖了其他模块,需要把其他模块install,否则找不到依赖.
+mvn clean compile mvn exec:java -pl system-controller -Dexec.mainClass=&amp;#34;com.bizmatics.system.Application&amp;#34; -pl：指定打包的模块，可以用路径也可以用坐标，如果父项目同时是父目录，那么进入父目录下，直接“-pl 项目目录名”即可</description></item></channel></rss>

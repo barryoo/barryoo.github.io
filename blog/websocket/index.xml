@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>websocket on Barry Blog</title><link>https://barryoo.github.io/blog/websocket/</link><description>Recent content in websocket on Barry Blog</description><generator>Hugo -- gohugo.io</generator><language>en-US</language><copyright>Copyright © 2023, Barry Chen.</copyright><lastBuildDate>Tue, 13 Mar 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://barryoo.github.io/blog/websocket/index.xml" rel="self" type="application/rss+xml"/><item><title>web实时通信技术方案</title><link>https://barryoo.github.io/web%E5%AE%9E%E6%97%B6%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88/</link><pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate><guid>https://barryoo.github.io/web%E5%AE%9E%E6%97%B6%E9%80%9A%E4%BF%A1%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88/</guid><description>http长轮询 通过延长http响应超时时间.使得服务端可以在一定时间内持有该连接. 当有新消息时,再响应.
+servelet3支持异步请求。 springmvc对其进行了支持， 使用DeferredResult
+SSE server sent event 基于 WebSocket 协议的一种服务器向客户端发送事件和数据的单向通讯 开发简单，和传统的http开发几乎无任何差别,客户端开发简单,有标准支持 单工通信.只能服务器端向客户端发送数据.
+webSocket 在应用层的socket连接.基于TCP/IP. 全双工通信
+websocket框架 cometd 实现了http长轮询与webSocket. 可根据客户端的支持程度,自动选择合适的通信技术. netty spring
+web push 基于浏览器的notificaitonApi实现. 浏览器向服务商订阅, 得到订阅endpoint. 然后将endpoint发送到服务端. 服务端通过endpoint,发送消息到服务商, 服务商推送消息到浏览器. 国内网络无法使用FCM/GCM/firebase.
+HTTP/2 HTTP/2的推送技术,只针对静态资源,且必须是编排好的资源. 不能像websocket一样推送. HTTP/2的推送用于提升网页加载速度. 但是由于没有缓存协商, 会导致网络资源浪费.</description></item></channel></rss>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>graphQL on Barry Blog</title><link>https://barryoo.github.io/blog/graphql/</link><description>Recent content in graphQL on Barry Blog</description><generator>Hugo -- gohugo.io</generator><language>en-US</language><copyright>Copyright © 2023, Barry Chen.</copyright><lastBuildDate>Thu, 11 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://barryoo.github.io/blog/graphql/index.xml" rel="self" type="application/rss+xml"/><item><title>graphQL应用场景分析</title><link>https://barryoo.github.io/graphql%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/</link><pubDate>Thu, 11 May 2023 00:00:00 +0000</pubDate><guid>https://barryoo.github.io/graphql%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/</guid><description>参考 https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/
+graphQL GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.
+对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求. 数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量. 各个前端可以访问自己想要的数据. 快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动. 优点 避免请求冗余和数据冗余 可以提升开发效率,可以提升性能. 减少前端请求次数(事实上我不知道这有什么意义)
+文档维护方便
+开发效率
+适合微服务 通过定义schema,自动从各个微服务中获取数据.
+缺点 迁移成本 debug和test麻烦. graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现. 对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.
+性能 通过&amp;quot;最大查询深度、查询复杂度加权、避免递归或持久查询&amp;quot;来避免性能问题. 但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化. 系统的瓶颈往往在数据库. 通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.
+前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加. 后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.
+缓存优化困难.
+主要的技术栈是nodejs, 其他语言支持度不高.
+限流 在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。
+总结 我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题.</description></item></channel></rss>

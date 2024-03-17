@@ -1,0 +1,69 @@
+<!doctype html><html lang=en-US><head><meta http-equiv=X-Clacks-Overhead content="GNU Terry Pratchett"><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://barryoo.github.io/favicon.ico><title>graphQL应用场景分析 | Barry Blog</title>
+<meta name=title content="graphQL应用场景分析"><meta name=description content="参考 https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/
+graphQL GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.
+对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求. 数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量. 各个前端可以访问自己想要的数据. 快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动. 优点 避免请求冗余和数据冗余 可以提升开发效率,可以提升性能. 减少前端请求次数(事实上我不知道这有什么意义)
+文档维护方便
+开发效率
+适合微服务 通过定义schema,自动从各个微服务中获取数据.
+缺点 迁移成本 debug和test麻烦. graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现. 对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.
+性能 通过&#34;最大查询深度、查询复杂度加权、避免递归或持久查询&#34;来避免性能问题. 但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化. 系统的瓶颈往往在数据库. 通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.
+前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加. 后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.
+缓存优化困难.
+主要的技术栈是nodejs, 其他语言支持度不高.
+限流 在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。
+总结 我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题."><meta name=keywords content="graphQL,"><meta property="og:title" content="graphQL应用场景分析"><meta property="og:description" content="参考 https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/
+graphQL GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.
+对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求. 数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量. 各个前端可以访问自己想要的数据. 快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动. 优点 避免请求冗余和数据冗余 可以提升开发效率,可以提升性能. 减少前端请求次数(事实上我不知道这有什么意义)
+文档维护方便
+开发效率
+适合微服务 通过定义schema,自动从各个微服务中获取数据.
+缺点 迁移成本 debug和test麻烦. graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现. 对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.
+性能 通过&#34;最大查询深度、查询复杂度加权、避免递归或持久查询&#34;来避免性能问题. 但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化. 系统的瓶颈往往在数据库. 通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.
+前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加. 后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.
+缓存优化困难.
+主要的技术栈是nodejs, 其他语言支持度不高.
+限流 在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。
+总结 我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题."><meta property="og:type" content="article"><meta property="og:url" content="https://barryoo.github.io/graphql%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/"><meta property="og:image" content="https://barryoo.github.io/images/share.png"><meta property="article:section" content="blog"><meta property="article:published_time" content="2023-05-11T00:00:00+00:00"><meta property="article:modified_time" content="2023-05-11T00:00:00+00:00"><meta property="og:site_name" content="barry blog"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://barryoo.github.io/images/share.png"><meta name=twitter:title content="graphQL应用场景分析"><meta name=twitter:description content="参考 https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/
+graphQL GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.
+对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求. 数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量. 各个前端可以访问自己想要的数据. 快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动. 优点 避免请求冗余和数据冗余 可以提升开发效率,可以提升性能. 减少前端请求次数(事实上我不知道这有什么意义)
+文档维护方便
+开发效率
+适合微服务 通过定义schema,自动从各个微服务中获取数据.
+缺点 迁移成本 debug和test麻烦. graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现. 对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.
+性能 通过&#34;最大查询深度、查询复杂度加权、避免递归或持久查询&#34;来避免性能问题. 但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化. 系统的瓶颈往往在数据库. 通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.
+前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加. 后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.
+缓存优化困难.
+主要的技术栈是nodejs, 其他语言支持度不高.
+限流 在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。
+总结 我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题."><meta itemprop=name content="graphQL应用场景分析"><meta itemprop=description content="参考 https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/
+graphQL GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.
+对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求. 数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量. 各个前端可以访问自己想要的数据. 快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动. 优点 避免请求冗余和数据冗余 可以提升开发效率,可以提升性能. 减少前端请求次数(事实上我不知道这有什么意义)
+文档维护方便
+开发效率
+适合微服务 通过定义schema,自动从各个微服务中获取数据.
+缺点 迁移成本 debug和test麻烦. graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现. 对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.
+性能 通过&#34;最大查询深度、查询复杂度加权、避免递归或持久查询&#34;来避免性能问题. 但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化. 系统的瓶颈往往在数据库. 通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.
+前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加. 后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.
+缓存优化困难.
+主要的技术栈是nodejs, 其他语言支持度不高.
+限流 在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。
+总结 我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题."><meta itemprop=datePublished content="2023-05-11T00:00:00+00:00"><meta itemprop=dateModified content="2023-05-11T00:00:00+00:00"><meta itemprop=wordCount content="107"><meta itemprop=image content="https://barryoo.github.io/images/share.png"><meta itemprop=keywords content="graphQL,"><meta name=referrer content="no-referrer-when-downgrade"><style>html{scroll-behavior:smooth}body{font-family:Verdana,sans-serif;margin:auto;padding:20px;text-align:left;background-color:#fff;word-wrap:break-word;overflow-wrap:break-word;line-height:1.5;color:#444}header{margin:auto;text-align:center;max-width:720px}.menu{justify-content:space-between;display:flex}main{margin:0 auto}.blog-posts-container{width:fit-content;margin:auto}.tag-container{max-width:720px}h1,h2,h3,h4,h5,h6,strong,b{color:#222}a{color:#3273dc}.title{text-decoration:none;border:0;text-align:center;color:#000;font-size:25px}.title span{font-weight:400}nav a{margin-right:10px}textarea{width:100%;font-size:16px}input{font-size:16px}.toc{max-width:250px;width:auto;top:20%;position:fixed;font-size:13px}.toc a{color:rgba(128,128,128,.4);text-decoration:none;display:block}.toc a:hover{color:#777}article{max-width:1080px;margin:0 auto;margin-left:calc(max((100% - 1080px)/2,250px))}content{line-height:1.6}table{width:100%}img{max-width:100%}code{padding:2px 5px;background-color:#f2f2f2}pre code{color:#222;display:block;padding:20px;white-space:pre-wrap;font-size:14px;overflow-x:auto}div.highlight pre{background-color:initial;color:initial}div.highlight code{background-color:unset;color:unset}blockquote{border-left:1px solid #999;color:#222;padding-left:20px;font-style:italic}footer{padding:25px;text-align:center}.helptext{color:#777;font-size:small}.errorlist{color:#eba613;font-size:small}ul.blog-posts{list-style-type:none;padding:unset}ul.blog-posts li span{margin-right:30px}ul.blog-posts li a:visited{color:#8b6fcb}@media(prefers-color-scheme:dark){body{background-color:#333;color:#ddd}h1,h2,h3,h4,h5,h6,strong,b{color:#eee}a{color:#8cc2dd}code{background-color:#777}pre code{color:#ddd}blockquote{color:#ccc}textarea,input{background-color:#252525;color:#ddd}.helptext{color:#aaa}}@media only screen and (max-width:1020px){.toc{width:auto;position:relative}article{padding-left:0;margin:0 auto}}</style></head><body><header><nav class=menu><a id=siteTitle href=/ class=title>Barry Blog</a><div style=display:flex><a href=/>Home</a>
+<a href=https://github.com/barryOO>github</a>
+<a href=/blog/>Blog</a></div></nav></header><main><aside class=toc><a href=#siteTitle style=margin-left:40px>top</a><nav id=TableOfContents><ul><li><a href=#参考>参考</a></li><li><a href=#graphql>graphQL</a></li><li><a href=#优点>优点</a></li><li><a href=#缺点>缺点</a></li><li><a href=#总结>总结</a></li><li><a href=#适用场景>适用场景</a></li><li><a href=#从编码的角度>从编码的角度</a></li></ul></nav></aside><article><h1 style=font-size:40px>graphQL应用场景分析</h1><p><i><time datetime=2023-05-11 pubdate>11 May, 2023</time></i></p><p><a href=https://barryoo.github.io/blog/graphql/>#graphQL</a></p><content><h2 id=参考>参考</h2><p><a href=https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/>https://www.pupboss.com/post/2021/experience-sharing-of-graphql-backend/</a></p><h2 id=graphql>graphQL</h2><p>GraphQL要解决的问题: 优化客户端向服务器请求数据的过程.</p><ul><li>对于同样的业务需求, REST API可能要请求多个endpoints, GraphQL可以用一个请求.</li><li>数据形式是客户端定义的, 只取想要的数据, 不会取多余的数据, 减小了数据传输量.</li><li>各个前端可以访问自己想要的数据.</li><li>快速开发, feature快速迭代. 升级改动时, 可能不需要后端改动.</li></ul><h2 id=优点>优点</h2><ul><li><p>避免请求冗余和数据冗余
+可以提升开发效率,可以提升性能.
+减少前端请求次数(事实上我不知道这有什么意义)</p></li><li><p>文档维护方便</p></li><li><p>开发效率</p></li><li><p>适合微服务
+通过定义schema,自动从各个微服务中获取数据.</p></li></ul><h2 id=缺点>缺点</h2><ul><li><p>迁移成本
+debug和test麻烦.
+graphql侵入性大, 耦合性高. 现有系统迁移成本很高. 只有一个URI,所以权限控制/限流/网关/等等与URI相关的功能,都要重新实现.
+对URI的颠覆式使用,让graphql的使用成本也是颠覆式的.</p></li><li><p>性能
+通过"最大查询深度、查询复杂度加权、避免递归或持久查询"来避免性能问题.
+但graphql性能优化很难, 一个接口应对多种场景. 而restful一个接口对应一个场景,可以针对性的优化.
+系统的瓶颈往往在数据库.
+通过graphql可以减少前端请求次数,只是稍微方便了前端开发, 却带来了问题. 大部分时候,我们是希望通过异步加载来优化性能的.</p></li></ul><p>前端自由查询,复杂度转移给了后端, 但后端难以对查询进行优化, 查询深度限制只是限制最低标准, 并不是最优, 如果前端导出都卡着这个限制来查询, 数据库压力会很大, 数据库压力大, 也就意味着成本的增加.
+后端开发者应该对数据库性能负责, 但是graphql导致后端开发者无法全力负责, 这是矛盾的. 数据库的优化是要自始至终 细小甚微的.</p><ul><li><p>缓存优化困难.</p></li><li><p>主要的技术栈是nodejs, 其他语言支持度不高.</p></li><li><p>限流
+在 REST API 中，你可以简单地指定我们一天只允许这个数量的请求，但在 GraphQL 中，很难指定这种类型的语句。</p></li></ul><h2 id=总结>总结</h2><p>我只是想让接口提供的字段更灵活, 但是graphql让我重写整个架构. 解决了一个小问题, 却带来了更大的问题.
+大部分的系统,需要"灵活多变的查询"的场景并不多, 为了解决小问题, 要引入graphql, 会带来更多的成本的风险控制.</p><h2 id=适用场景>适用场景</h2><ul><li>大量的灵活查询. 如果你的系统大部分查询字段是固定的, 没必要使用. elasticSearch很适合.</li><li>不使用异步加载, 希望前端请求次数减少.()</li><li>希望公开API, 但是又不想频繁修改API</li><li>开发新产品,而不是维护老产品</li></ul><p>对外开放的平台</p><ol><li>对外开放, 外部开发者可以自由的查询数据, 我们不需要对接口进行频繁修改.</li><li>resource单一, 复杂查询少, 这样可以避免性能问题.</li><li>文档维护简单, 阅读起来清晰.</li></ol><p>backend for frontend
+在微服务场景中, BBF使用graphql可以提高开发效率,自动聚合各服务的资源.
+graphql与restful在一个项目中结合使用,扬长避短.</p><h2 id=从编码的角度>从编码的角度</h2><p>service和persistence层没有明显变化.
+通过schema建立模型关系, 通过resolver来获取数据, 进而自动聚合数据.
+通过schema定义灵活的model, 可以自动聚合出各种模型的数据.</p></content></article></main><footer></footer></body></html>
